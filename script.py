@@ -1,6 +1,7 @@
 import csv
 import pandas as pd
 import numpy as np
+import seaborn as sn
 import matplotlib.pyplot as plt
 
 
@@ -104,13 +105,13 @@ print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
 #Q11
 df11 = pd.DataFrame(df)
 df11Under5 = pd.DataFrame(df)
-df11Under5 = df11Under5.loc[df11Under5['affair_status'] == 'Yes' , ['yearsmarried']]
+df11Under5 = df11Under5.loc[df11Under5['affair_status'] == 'Yes' , ['yearsmarried' , 'gender']]
 df11Under5 = df11Under5.loc[df11Under5['yearsmarried'] < 5]
 q11Result1 = (len(df11Under5) / len(df11) * 100)
 print("Percentage of chaeting that occurs in marriages under 5 years: " + str(q11Result1) + "%")
 
 df11Over5 =pd.DataFrame(df)
-df11Over5 = df11Over5.loc[df11Over5['affair_status'] == 'Yes' , ['yearsmarried']]
+df11Over5 = df11Over5.loc[df11Over5['affair_status'] == 'Yes' , ['yearsmarried' , 'gender']]
 df11Over5 = df11Over5.loc[df11Over5['yearsmarried'] >= 5]
 q11Result2 = (len(df11Over5) / len(df11) * 100)
 print("Percentage of chaeting that occurs in marriages over, including, 5 years: " + str(q11Result2) + "%")
@@ -119,3 +120,22 @@ print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
 
 #Q12
 df12 = pd.DataFrame(df)
+df12Under5Male = df11Under5.loc[df11Under5['gender'] == 'male']
+df12Over5Male = df11Over5.loc[df11Over5['gender'] == 'male']
+
+df12Under5Female = df11Under5.loc[df11Under5['gender'] == 'female']
+df12Over5Female = df11Over5.loc[df11Over5['gender'] == 'female']
+
+print("Impact of marriage under 5 years on males: " + str(len(df12Under5Male)))
+print("Impact of marriage over 5 years on males: " + str(len(df12Over5Male)))
+print("Impact of marriage under 5 years on females: " + str(len(df12Under5Female)))
+print("Impact of marriage over 5 years on females: " + str(len(df12Over5Female)))
+
+print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
+
+#Q13
+df13 = pd.DataFrame(df)
+plt.scatter(df13['age'],df13['yearsmarried'])
+plt.plot(np.unique(df13['age']), np.poly1d(np.polyfit(df13['age'], df13['yearsmarried'], 1))(np.unique(df13['age'])), color = 'green')
+plt.show()
+#print(df13)
